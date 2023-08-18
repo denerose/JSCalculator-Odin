@@ -1,0 +1,1 @@
+The Odin Project Calculator project, completed in Javascript.
