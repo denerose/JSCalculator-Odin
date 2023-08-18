@@ -1,0 +1,60 @@
+:root {
+    --dark: rebeccapurple;
+    --light: #e5d8f3;
+}
+
+h1 {
+    text-align: center;
+}
+
+button {
+    border: 1px solid black;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 5px;
+    background-color: var(--light);
+}
+
+#frameBox {
+    border: 1px solid grey;
+    border-radius: 3%;
+    width: 350px;
+    height: auto;
+    margin: auto;
+    padding: 10px;
+}
+
+#display {
+    margin: 20px;
+    padding: 5px 15px;
+    text-align: right;
+    border: 1px solid var(--dark);
+    border-radius: 5px;
+    background-color: var(--light);
+}
+
+#buttonBox {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    height: 350px;
+}
+
+.numbtn {
+    background-color: var(--dark);
+    color: var(--light);
+}
+
+#clear {
+    grid-column: 1 / span 2;
+}
+#eq {
+    grid-column: 3 / span 2;
+}
+#add {
+    grid-column: 3 / span 2;
+}
+
+footer {
+    padding: 10px;
+    text-align: center;
+}
