@@ -3,8 +3,8 @@ const opBtns = document.getElementsByClassName("opbtn");
 const displayText = document.getElementById("displayText");
 let breadcrumb = document.getElementById("breadcrumb")
 
-let num1 = 0;
-let num2 = 0;
+let num1 = null;
+let num2 = null;
 let operator = null;
 let shortOperator = "";
 let displayContent = 0
@@ -35,16 +35,16 @@ for (let i = 0; i < opBtns.length; i++) {
         logNum(displayContent);
         operator = currentBtn.id;
         switch (operator) {
-            case add:
-                shortOperator = "&#43";
+            case "add":
+                shortOperator = "+";
                 break;
-            case multiply:
+            case "multiply":
                 shortOperator = "x";
                 break;
-            case subtract:
+            case "subtract":
                 shortOperator = "-";
                 break;
-            case divide:
+            case "divide":
                 shortOperator = "/";
                 break;
             default:
