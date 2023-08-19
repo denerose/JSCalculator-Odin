@@ -11,6 +11,7 @@ let backupNumber: number = 0;
 let operator: string = "";
 let shortOperator: string = "";
 let holdingValue = "0"
+let lastOperator: string = "";
 
 function updateDisplay() {
     if (displayText){
@@ -38,7 +39,7 @@ clearButton?.addEventListener("click", () => {
 })
 
 equalButton?.addEventListener("click", () => {
-    calculate(firstNumber, Number(holdingValue), operator);
+    calculate();
 })
 
 // button functions
@@ -61,21 +62,24 @@ function inputNumber(input: string): void {
 }
 
 function setOperator(newOperator: string, newShortOperator: string): void {
-    if (operator !== '') calculate(firstNumber, Number(holdingValue), operator);
-    firstNumber = Number(holdingValue);
-    holdingValue = "0";
+    lastOperator = "";
+    if (operator!=="") {calculate()}
+    if (holdingValue) { 
+        firstNumber = Number(holdingValue);
+        holdingValue = "0"; }
     operator = newOperator;
     shortOperator = newShortOperator;
     if (operator === '' && displayText) {displayText.innerText = shortOperator};
     if (breadcrumbText) breadcrumbText.innerText = `${firstNumber} ${shortOperator}`;
 }
 
-function calculate(num1: number, num2: number, operator: any) {
+function calculate() {
     if (operator === '') {
         return
     }
     let inputNumber = Number(holdingValue);
-    if (holdingValue == "") {inputNumber = backupNumber}
+    if (holdingValue == "") {inputNumber = backupNumber};
+    if (operator == "" && lastOperator != "") {operator = lastOperator}
     let result: number = 0;
     switch (operator) {
         case "add":
@@ -105,6 +109,8 @@ function calculate(num1: number, num2: number, operator: any) {
     if (breadcrumbText) {breadcrumbText.innerText = `${firstNumber} ${shortOperator} ${inputNumber}`}
     backupNumber = inputNumber;
     firstNumber = result;
+    lastOperator = operator;
+    operator = "";
     if (displayText) displayText.innerText = String(result);
     return (result);
 }

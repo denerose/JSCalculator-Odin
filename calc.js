@@ -11,6 +11,7 @@ let backupNumber = 0;
 let operator = "";
 let shortOperator = "";
 let holdingValue = "0";
+let lastOperator = "";
 function updateDisplay() {
     if (displayText) {
         displayText.innerText = holdingValue;
@@ -33,7 +34,7 @@ clearButton === null || clearButton === void 0 ? void 0 : clearButton.addEventLi
     clear();
 });
 equalButton === null || equalButton === void 0 ? void 0 : equalButton.addEventListener("click", () => {
-    calculate(firstNumber, Number(holdingValue), operator);
+    calculate();
 });
 // button functions
 function clear() {
@@ -56,10 +57,14 @@ function inputNumber(input) {
     updateDisplay();
 }
 function setOperator(newOperator, newShortOperator) {
-    if (operator !== '')
-        calculate(firstNumber, Number(holdingValue), operator);
-    firstNumber = Number(holdingValue);
-    holdingValue = "0";
+    lastOperator = "";
+    if (operator !== "") {
+        calculate();
+    }
+    if (holdingValue) {
+        firstNumber = Number(holdingValue);
+        holdingValue = "0";
+    }
     operator = newOperator;
     shortOperator = newShortOperator;
     if (operator === '' && displayText) {
@@ -69,13 +74,17 @@ function setOperator(newOperator, newShortOperator) {
     if (breadcrumbText)
         breadcrumbText.innerText = `${firstNumber} ${shortOperator}`;
 }
-function calculate(num1, num2, operator) {
+function calculate() {
     if (operator === '') {
         return;
     }
     let inputNumber = Number(holdingValue);
     if (holdingValue == "") {
         inputNumber = backupNumber;
+    }
+    ;
+    if (operator == "" && lastOperator != "") {
+        operator = lastOperator;
     }
     let result = 0;
     switch (operator) {
@@ -108,6 +117,8 @@ function calculate(num1, num2, operator) {
     }
     backupNumber = inputNumber;
     firstNumber = result;
+    lastOperator = operator;
+    operator = "";
     if (displayText)
         displayText.innerText = String(result);
     return (result);
