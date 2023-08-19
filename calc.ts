@@ -7,14 +7,14 @@ const breadcrumbText = document.getElementById("breadcrumb");
 
 // vars to hold active values
 let firstNumber: number = 0;
-let secondNumber: number = 0;
+let backupNumber: number = 0;
 let operator: string = "";
 let shortOperator: string = "";
-let displayValue = "0"
+let holdingValue = "0"
 
 function updateDisplay() {
     if (displayText){
-        displayText.innerText = displayValue;
+        displayText.innerText = holdingValue;
     }
 }
 
@@ -38,70 +38,74 @@ clearButton?.addEventListener("click", () => {
 })
 
 equalButton?.addEventListener("click", () => {
-    calculate(firstNumber, Number(displayValue), operator);
+    calculate(firstNumber, Number(holdingValue), operator);
 })
 
 // button functions
 function clear(): void {
     firstNumber = 0;
-    secondNumber = 0;
+    backupNumber = 0;
     operator = '';
-    displayValue = "0";
+    holdingValue = "0";
+    if (breadcrumbText) {breadcrumbText.innerText = "..."}
+    updateDisplay();
 }
 
 function inputNumber(input: string): void {
-    if (displayValue === "0") {
-        displayValue = input;
+    if (holdingValue === "0" || "") {
+        holdingValue = input;
     } else {
-        displayValue += input;
+        holdingValue += input;
     }
     updateDisplay();
 }
 
 function setOperator(newOperator: string, newShortOperator: string): void {
-    if (operator !== '') calculate(firstNumber, secondNumber, operator);
-    firstNumber = Number(displayValue);
-    displayValue = "0";
+    if (operator !== '') calculate(firstNumber, Number(holdingValue), operator);
+    firstNumber = Number(holdingValue);
+    holdingValue = "0";
     operator = newOperator;
     shortOperator = newShortOperator;
     if (operator === '' && displayText) {displayText.innerText = shortOperator};
+    if (breadcrumbText) breadcrumbText.innerText = `${firstNumber} ${shortOperator}`;
 }
 
 function calculate(num1: number, num2: number, operator: any) {
     if (operator === '') {
         return
     }
-    secondNumber = Number(displayValue);
+    let inputNumber = Number(holdingValue);
+    if (holdingValue == "") {inputNumber = backupNumber}
     let result: number = 0;
     switch (operator) {
         case "add":
-            result = add(firstNumber, secondNumber);
-            displayValue = String(result);
-            console.log(firstNumber, shortOperator, secondNumber, "=", result);
+            result = add(firstNumber, inputNumber);
+            holdingValue = "";
+            console.log(firstNumber, shortOperator, inputNumber, "=", result);
             break;
         case "multiply":
-            result = multiply(firstNumber, secondNumber);
-            displayValue = String(result);
-            console.log(firstNumber, " ", shortOperator, " ", secondNumber, "=", result);
+            result = multiply(firstNumber, inputNumber);
+            holdingValue = "";
+            console.log(firstNumber, " ", shortOperator, " ", inputNumber, "=", result);
             break;
         case "subtract":
-            result = subtract(firstNumber, secondNumber);
-            displayValue = String(result);
-            console.log(firstNumber, " ", shortOperator, " ", secondNumber, "=", result);
+            result = subtract(firstNumber, inputNumber);
+            holdingValue = "";
+            console.log(firstNumber, " ", shortOperator, " ", inputNumber, "=", result);
             break;
         case "divide":
-            result = divide(firstNumber, secondNumber);
-            displayValue = String(result);
-            console.log(firstNumber, " ", shortOperator, " ", secondNumber, "=", result);
+            result = divide(firstNumber, inputNumber);
+            holdingValue = "";
+            console.log(firstNumber, " ", shortOperator, " ", inputNumber, "=", result);
             break;
         default:
             console.log("invalid operator?")
             break;
     }
-    if (breadcrumbText) {breadcrumbText.innerText = `${firstNumber} ${shortOperator} ${secondNumber}`}
-    secondNumber = firstNumber;
+    if (breadcrumbText) {breadcrumbText.innerText = `${firstNumber} ${shortOperator} ${inputNumber}`}
+    backupNumber = inputNumber;
     firstNumber = result;
-    updateDisplay();
+    if (displayText) displayText.innerText = String(result);
     return (result);
 }
 
