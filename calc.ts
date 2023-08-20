@@ -4,6 +4,7 @@ const clearButton = document.getElementById("clear");
 const equalButton = document.getElementById("eq");
 const displayText = document.getElementById("displayText");
 const breadcrumbText = document.getElementById("breadcrumb");
+const decimalButton = document.getElementById("decimal");
 
 // vars to hold active values
 let firstNumber: number = 0;
@@ -42,6 +43,10 @@ equalButton?.addEventListener("click", () => {
     calculate();
 })
 
+decimalButton?.addEventListener("click", () => {
+    addDecimal();
+})
+
 // button functions
 function clear(): void {
     firstNumber = 0;
@@ -67,10 +72,18 @@ function setOperator(newOperator: string, newShortOperator: string): void {
     if (holdingValue) { 
         firstNumber = Number(holdingValue);
         holdingValue = "0"; }
+    if (operator === '' && displayText) {displayText.innerText = shortOperator};
     operator = newOperator;
     shortOperator = newShortOperator;
-    if (operator === '' && displayText) {displayText.innerText = shortOperator};
     if (breadcrumbText) breadcrumbText.innerText = `${firstNumber} ${shortOperator}`;
+}
+
+function addDecimal () {
+    if (holdingValue.includes(".")) return;
+    else {
+        holdingValue += ".";
+        updateDisplay();
+    }
 }
 
 function calculate() {
@@ -133,7 +146,7 @@ function subtract(num1: number, num2: number) {
 
 function divide(num1: number, num2: number) {
     if (num1 === 0 || num2 === 0) {
-        alert("NO!!!!")
+        alert("Please do not divide by 0")
         return(0)
     }
     else {
