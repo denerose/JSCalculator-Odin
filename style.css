@@ -18,7 +18,11 @@ button {
 }
 
 button:hover {
-    opacity: 90%;
+    background-color: rgba(226, 205, 247, 0.9);
+}
+
+.numbtn:hover {
+    background-color: rgba(102, 51, 153, 0.9);
 }
 
 button:active {
