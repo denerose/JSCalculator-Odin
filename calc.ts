@@ -75,7 +75,7 @@ function setOperator(newOperator: string, newShortOperator: string): void {
     if (operator === '' && displayText) {displayText.innerText = shortOperator};
     operator = newOperator;
     shortOperator = newShortOperator;
-    if (breadcrumbText) breadcrumbText.innerText = `${firstNumber} ${shortOperator}`;
+    if (breadcrumbText) breadcrumbText.innerText = `${Math.round((firstNumber + Number.EPSILON) *100) / 100} ${shortOperator}`;
 }
 
 function addDecimal () {
@@ -119,12 +119,12 @@ function calculate() {
             console.log("invalid operator?")
             break;
     }
-    if (breadcrumbText) {breadcrumbText.innerText = `${firstNumber} ${shortOperator} ${inputNumber}`}
+    if (breadcrumbText) {breadcrumbText.innerText = `${Math.round((firstNumber + Number.EPSILON) *100) / 100} ${shortOperator} ${Math.round((inputNumber + Number.EPSILON) *100 ) /100}`}
     backupNumber = inputNumber;
     firstNumber = result;
     lastOperator = operator;
     operator = "";
-    if (displayText) displayText.innerText = String(result);
+    if (displayText) displayText.innerText = String(result.toFixed(6));
     return (result);
 }
 

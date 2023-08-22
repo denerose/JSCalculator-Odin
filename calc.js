@@ -76,7 +76,7 @@ function setOperator(newOperator, newShortOperator) {
     operator = newOperator;
     shortOperator = newShortOperator;
     if (breadcrumbText)
-        breadcrumbText.innerText = `${firstNumber} ${shortOperator}`;
+        breadcrumbText.innerText = `${Math.round((firstNumber + Number.EPSILON) * 100) / 100} ${shortOperator}`;
 }
 function addDecimal() {
     if (holdingValue.includes("."))
@@ -125,14 +125,14 @@ function calculate() {
             break;
     }
     if (breadcrumbText) {
-        breadcrumbText.innerText = `${firstNumber} ${shortOperator} ${inputNumber}`;
+        breadcrumbText.innerText = `${Math.round((firstNumber + Number.EPSILON) * 100) / 100} ${shortOperator} ${Math.round((inputNumber + Number.EPSILON) * 100) / 100}`;
     }
     backupNumber = inputNumber;
     firstNumber = result;
     lastOperator = operator;
     operator = "";
     if (displayText)
-        displayText.innerText = String(result);
+        displayText.innerText = String(result.toFixed(6));
     return (result);
 }
 // calculation functions
