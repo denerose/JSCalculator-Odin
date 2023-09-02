@@ -16,8 +16,8 @@ let lastOperator: string = "";
 
 function updateDisplay() {
     if (displayText){
-        if (holdingValue.length > 16) {
-            let notationalValue = Number(holdingValue).toExponential();
+        if (holdingValue.length > 13) {
+            let notationalValue = Number(holdingValue).toExponential(5);
             displayText.innerText = notationalValue;
         } else {displayText.innerText = holdingValue;}
     }
@@ -127,7 +127,12 @@ function calculate() {
     firstNumber = result;
     lastOperator = operator;
     operator = "";
-    if (displayText) displayText.innerText = String(result.toFixed(6));
+    if (displayText) 
+        if (String(result).length > 10) {
+            let notationalResult = result.toExponential(5)
+        } else {
+            displayText.innerText = String(result.toFixed(6));
+        }
     return (result);
 }
 
