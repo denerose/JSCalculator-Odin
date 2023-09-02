@@ -16,7 +16,10 @@ let lastOperator: string = "";
 
 function updateDisplay() {
     if (displayText){
-        displayText.innerText = holdingValue;
+        if (holdingValue.length > 16) {
+            let notationalValue = Number(holdingValue).toExponential();
+            displayText.innerText = notationalValue;
+        } else {displayText.innerText = holdingValue;}
     }
 }
 
